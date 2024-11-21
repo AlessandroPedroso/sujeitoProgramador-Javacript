@@ -4,7 +4,7 @@ let inputElement = document.querySelector("#app input"); //pega o input dentro d
 
 let buttonElement = document.querySelector('#app button') // pega o button dentro da div
 
-let tarefas = [];
+let tarefas =  JSON.parse(localStorage.getItem('@lista-tarefas')) || [];
 
 function renderTarefas() {
     listElement.innerHTML = ""
@@ -16,7 +16,7 @@ function renderTarefas() {
         let linkElement = document.createElement('a');//cria o elemento a
         linkElement.setAttribute("href", "#");// cria o atributo href dentro da tag a
 
-        let linkText = document.createTextNode("Excluir");//cria o texto excluir
+        let linkText = document.createTextNode(" Excluir");//cria o texto excluir
         linkElement.appendChild(linkText);//adiciona o texto excluir dentro da tag a
 
         let posicao = tarefas.indexOf(tarefa); //busca o index da tarefa
@@ -28,6 +28,8 @@ function renderTarefas() {
         listElement.appendChild(liElement); // adicionar o li dentro de ul
     })
 }
+
+renderTarefas();
 
 function adicionarTarefas() {
     if (inputElement.value === '') {
@@ -41,6 +43,7 @@ function adicionarTarefas() {
         tarefas.push(novaterefa);
         inputElement.value = '';
         renderTarefas();
+        salvarDados();
     }
 }
 
@@ -49,6 +52,11 @@ buttonElement.onclick = adicionarTarefas;
 function deletarTarefa(posicao) {
     tarefas.splice(posicao, 1);
     renderTarefas();
+    salvarDados();
+}
+
+function salvarDados() {
+    localStorage.setItem("@lista-tarefas",JSON.stringify(tarefas))
 }
 
 
